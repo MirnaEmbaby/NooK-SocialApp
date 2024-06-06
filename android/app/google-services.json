@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922971437681",
+    "project_id": "noook-a1f68",
+    "storage_bucket": "noook-a1f68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922971437681:android:4efa41981357fbf681f9d0",
+        "android_client_info": {
+          "package_name": "com.example.noook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvvLx9Wd9k3-k1U_3Vh_4QJr1_XDrMLkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
