@@ -1,4 +1,4 @@
-package com.example.noook
+package com.example.nook
 
 import io.flutter.embedding.android.FlutterActivity
 

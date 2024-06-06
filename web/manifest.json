@@ -1,6 +1,6 @@
 {
-    "name": "noook",
-    "short_name": "noook",
+    "name": "nook",
+    "short_name": "nook",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
