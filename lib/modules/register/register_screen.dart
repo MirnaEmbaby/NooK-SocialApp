@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noook/layout/layout_screen.dart';
 import 'package:noook/modules/register/cubit/cubit.dart';
 import 'package:noook/modules/register/cubit/states.dart';
 import 'package:noook/shared/components/components.dart';
@@ -22,21 +23,9 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => RegisterCubit(),
       child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
-          // if (state is RegisterSuccessState) {
-          //   if (state.loginModel.status!) {
-          //     CacheHelper.saveData(
-          //             key: 'token', value: state.loginModel.data?.token)
-          //         .then((value) {
-          //       token = state.loginModel.data!.token!;
-          //       navigateAndFinish(context, const LayoutScreen());
-          //     });
-          //   } else {
-          //     showToast(
-          //       state.loginModel.message,
-          //       ToastStates.error,
-          //     );
-          //   }
-          // }
+          if (state is UserCreateSuccessState) {
+            navigateAndFinish(context, const LayoutScreen());
+          }
         },
         builder: (context, state) {
           return Scaffold(
