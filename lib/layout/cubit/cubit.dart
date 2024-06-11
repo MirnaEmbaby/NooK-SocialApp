@@ -3,6 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/states.dart';
 import 'package:noook/models/user_model.dart';
+import 'package:noook/modules/chats/chats_screen.dart';
+import 'package:noook/modules/feed/feed_screen.dart';
+import 'package:noook/modules/settings/settings_screen.dart';
+import 'package:noook/modules/users/users_screen.dart';
 import 'package:noook/shared/components/components.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -24,5 +28,17 @@ class AppCubit extends Cubit<AppStates> {
       debugPrint(error.toString());
       emit(GetUserErrorState(error.toString()));
     });
+  }
+
+  int currentIndex = 0;
+  List<Widget> screens = [
+    const FeedScreen(),
+    const ChatsScreen(),
+    const UsersScreen(),
+    const SettingsScreen(),
+  ];
+  void changeBottomNav(index) {
+    currentIndex = index;
+    emit(ChangeBottomNavState());
   }
 }

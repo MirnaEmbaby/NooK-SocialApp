@@ -8,6 +8,7 @@ import 'package:noook/modules/login/login_screen.dart';
 import 'package:noook/shared/bloc_observer.dart';
 import 'package:noook/shared/components/components.dart';
 import 'package:noook/shared/network/local/cache_helper.dart';
+import 'package:noook/shared/styles/themes.dart';
 
 import 'firebase_options.dart';
 
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            theme: lightTheme,
             home: startWidget,
           );
         },
