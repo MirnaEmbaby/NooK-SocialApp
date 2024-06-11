@@ -1,10 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noook/layout/layout_screen.dart';
 import 'package:noook/modules/login/cubit/cubit.dart';
 import 'package:noook/modules/login/cubit/states.dart';
 import 'package:noook/modules/register/register_screen.dart';
 import 'package:noook/shared/components/components.dart';
+import 'package:noook/shared/network/local/cache_helper.dart';
 import 'package:noook/shared/styles/colors.dart';
 
 // ignore: must_be_immutable
@@ -23,6 +25,14 @@ class LoginScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is LoginErrorState) {
             showToast(state.error, ToastStates.error);
+          }
+          if (state is LoginSuccessState) {
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then((value) {
+              navigateAndFinish(context, const LayoutScreen());
+            });
           }
         },
         builder: (context, state) {

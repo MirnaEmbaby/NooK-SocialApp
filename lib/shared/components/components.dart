@@ -103,7 +103,9 @@ Widget defaultTextButton({
       },
       child: Text(
         text!.toUpperCase(),
-        style: TextStyle(color: color),
+        style: TextStyle(
+          color: color,
+        ),
       ),
     );
 
@@ -142,3 +144,10 @@ Color toastColor(ToastStates state) {
 //     ),
 //   );
 // }
+
+void printFullText(String text) {
+  final pattern = RegExp('.{1,800}');
+  pattern.allMatches(text).forEach((match) => debugPrint(match.group(0)));
+}
+
+String? uId = '';
