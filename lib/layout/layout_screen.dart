@@ -22,6 +22,17 @@ class LayoutScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(IconBroken.Notification),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(IconBroken.Search),
+              ),
+            ],
+            backgroundColor: Colors.white,
           ),
           body: cubit.screens[cubit.currentIndex],
           // EMAIL VERIFICATION
@@ -87,6 +98,7 @@ class LayoutScreen extends StatelessWidget {
               ),
             ],
           ),
+          backgroundColor: Colors.white,
         );
       },
     );
