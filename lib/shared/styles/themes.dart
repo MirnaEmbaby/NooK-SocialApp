@@ -35,8 +35,9 @@ ThemeData lightTheme = ThemeData(
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 18.0,
+        fontSize: 16.0,
         color: Colors.black,
+        height: 1.4,
       ),
     ),
     fontFamily: 'Lato');
@@ -75,8 +76,9 @@ ThemeData darkTheme = ThemeData(
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 18.0,
+      fontSize: 16.0,
       color: Colors.white,
+      height: 1.4,
     ),
   ),
 );
