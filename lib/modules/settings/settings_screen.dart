@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/layout/cubit/states.dart';
-import 'package:noook/shared/components/components.dart';
+import 'package:noook/shared/styles/colors.dart';
+import 'package:noook/shared/styles/icon_broken.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var model = AppCubit.get(context).model;
+    var userModel = AppCubit.get(context).model;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -22,47 +23,50 @@ class SettingsScreen extends StatelessWidget {
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: [
-                    const Align(
+                    Align(
                       alignment: Alignment.topCenter,
                       child: Image(
-                        image: NetworkImage(
-                          'https://img.freepik.com/free-photo/front-view-horizontal-white-copy-space-wall_23-2148801259.jpg?t=st=1718396105~exp=1718399705~hmac=892964f1c737d94808873e23d63ef25dd7d09ef04b01166a32567c608a2f1aa5&w=2000',
-                        ),
+                        image: NetworkImage(userModel!.cover),
                         height: 140.0,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    CircleAvatar(
-                      radius: 70.0,
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      child: const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          'https://img.freepik.com/free-photo/portrait-happy-smiley-man_23-2149022624.jpg?t=st=1718395807~exp=1718399407~hmac=db2c6c0b97c418d50b203832cfd4810cadd0ee941bdc5d879368e1dba2444ad3&w=2000',
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 70.0,
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(userModel.image),
+                          radius: 65.0,
                         ),
-                        radius: 65.0,
                       ),
                     ),
                   ],
                 ),
               ),
-              Text(
-                'Anonymous Person',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 22.0),
-              ),
-              const SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                'Bio ... ',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .copyWith(color: Colors.grey[600]),
+              Column(
+                children: [
+                  Text(
+                    userModel.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 22.0),
+                  ),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    userModel.bio,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(color: Colors.grey[600]),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -91,10 +95,10 @@ class SettingsScreen extends StatelessWidget {
                         onTap: () {},
                         child: Column(
                           children: [
-                            Text('100',
+                            Text('20',
                                 style: Theme.of(context).textTheme.bodyLarge),
                             Text(
-                              'Posts',
+                              'Reels',
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge!
@@ -109,10 +113,10 @@ class SettingsScreen extends StatelessWidget {
                         onTap: () {},
                         child: Column(
                           children: [
-                            Text('100',
+                            Text('10k',
                                 style: Theme.of(context).textTheme.bodyLarge),
                             Text(
-                              'Posts',
+                              'Followers',
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge!
@@ -127,10 +131,10 @@ class SettingsScreen extends StatelessWidget {
                         onTap: () {},
                         child: Column(
                           children: [
-                            Text('100',
+                            Text('560',
                                 style: Theme.of(context).textTheme.bodyLarge),
                             Text(
-                              'Posts',
+                              'Following',
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge!
@@ -143,19 +147,52 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 5.0,
-              ),
               Row(
                 children: [
                   Expanded(
-                    child: defaultButton(
-                      function: () {},
-                      text: 'Edit profile',
+                    child: OutlinedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                        ),
+                        side: WidgetStateProperty.all<BorderSide>(
+                          const BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: const Text(
+                        'Add Photo',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10.0,
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      ),
+                      side: WidgetStateProperty.all<BorderSide>(
+                        const BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    child: const Icon(
+                      IconBroken.Edit,
+                      color: myIndigo,
+                      size: 18,
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         );

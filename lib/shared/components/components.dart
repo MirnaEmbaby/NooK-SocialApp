@@ -103,6 +103,7 @@ Widget defaultTextButton({
         text!.toUpperCase(),
         style: TextStyle(
           color: color,
+          fontSize: 12.0,
         ),
       ),
     );
