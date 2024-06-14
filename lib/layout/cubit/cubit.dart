@@ -37,12 +37,17 @@ class AppCubit extends Cubit<AppStates> {
     const UsersScreen(),
     const SettingsScreen(),
   ];
+
+  // List<String> titles = [
+  //   'Home',
+  //   'Chats',
+  //   'Post',
+  //   'Users',
+  //   'Settings',
+  // ];
+
   void changeBottomNav(index) {
-    if (index == 2) {
-      emit(NewPostState());
-    } else {
-      currentIndex = index;
-      emit(ChangeBottomNavState());
-    }
+    currentIndex = index;
+    emit(ChangeBottomNavState());
   }
 }

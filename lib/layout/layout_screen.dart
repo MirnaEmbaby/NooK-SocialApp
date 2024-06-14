@@ -4,6 +4,7 @@ import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/layout/cubit/states.dart';
 import 'package:noook/modules/new_post/new_post_screen.dart';
 import 'package:noook/shared/components/components.dart';
+import 'package:noook/shared/styles/colors.dart';
 import 'package:noook/shared/styles/icon_broken.dart';
 
 class LayoutScreen extends StatelessWidget {
@@ -12,11 +13,7 @@ class LayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {
-        if (state is NewPostState) {
-          navigateTo(context, const NewPostScreen());
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
@@ -94,18 +91,33 @@ class LayoutScreen extends StatelessWidget {
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
-                icon: Icon(IconBroken.Paper_Upload),
-                label: 'Post',
-              ),
-              BottomNavigationBarItem(
                 icon: Icon(IconBroken.Location),
-                label: 'Location',
+                label: 'Users',
               ),
               BottomNavigationBarItem(
                 icon: Icon(IconBroken.Setting),
                 label: 'Setting',
               ),
             ],
+          ),
+          floatingActionButton: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                navigateTo(
+                  context,
+                  const NewPostScreen(),
+                );
+              },
+              elevation: 5.0,
+              hoverElevation: 15.0,
+              backgroundColor: myIndigo,
+              child: const Icon(
+                IconBroken.Paper_Upload,
+                color: Colors.white,
+                size: 30.0,
+              ),
+            ),
           ),
         );
       },

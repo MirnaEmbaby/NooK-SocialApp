@@ -10,24 +10,11 @@ class FeedScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          const Card(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 4.0,
-            margin: EdgeInsets.all(8.0),
-            child: Image(
-              image: NetworkImage(
-                'https://img.freepik.com/free-vector/followers-line-concept-illustration_52683-23650.jpg?t=st=1718229543~exp=1718233143~hmac=89bff9940dded3c8d12a921224139d8b7ef2446bfe8d3cb5c118530db8892651&w=2000',
-              ),
-              height: 200.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => buildPost(context),
-            separatorBuilder: (context, index) => const SizedBox(height: 20.0),
+            separatorBuilder: (context, index) => const SizedBox(height: 10.0),
             itemCount: 10,
           ),
           const SizedBox(height: 8.0),
@@ -51,8 +38,7 @@ Widget buildPost(context) => Card(
               children: [
                 const CircleAvatar(
                   backgroundImage: NetworkImage(
-                    'https://img.freepik.com/free-photo/young-brunette-woman-wearing-red-eyeglasses_273609-41258.jpg?t=st=1718279227~exp=1718282827~hmac=f5d5ba509a8e6d19219a2a0041782eb629a1751d5b828559f4758586f563eba0&w=1380',
-                  ),
+                      'https://img.freepik.com/free-photo/portrait-happy-smiley-man_23-2149022624.jpg?t=st=1718395807~exp=1718399407~hmac=db2c6c0b97c418d50b203832cfd4810cadd0ee941bdc5d879368e1dba2444ad3&w=2000'),
                   radius: 25.0,
                 ),
                 const SizedBox(
@@ -247,8 +233,7 @@ Widget buildPost(context) => Card(
                 children: [
                   const CircleAvatar(
                     backgroundImage: NetworkImage(
-                      'https://img.freepik.com/free-photo/young-brunette-woman-wearing-red-eyeglasses_273609-41258.jpg?t=st=1718279227~exp=1718282827~hmac=f5d5ba509a8e6d19219a2a0041782eb629a1751d5b828559f4758586f563eba0&w=1380',
-                    ),
+                        'https://img.freepik.com/free-photo/portrait-happy-smiley-man_23-2149022624.jpg?t=st=1718395807~exp=1718399407~hmac=db2c6c0b97c418d50b203832cfd4810cadd0ee941bdc5d879368e1dba2444ad3&w=2000'),
                     radius: 16.0,
                   ),
                   const SizedBox(
