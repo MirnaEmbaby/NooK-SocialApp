@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/layout/cubit/states.dart';
+import 'package:noook/modules/new_post/new_post_screen.dart';
+import 'package:noook/shared/components/components.dart';
 import 'package:noook/shared/styles/icon_broken.dart';
 
 class LayoutScreen extends StatelessWidget {
@@ -10,7 +12,11 @@ class LayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is NewPostState) {
+          navigateTo(context, const NewPostScreen());
+        }
+      },
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
@@ -32,7 +38,6 @@ class LayoutScreen extends StatelessWidget {
                 icon: const Icon(IconBroken.Search),
               ),
             ],
-            backgroundColor: Colors.white,
           ),
           body: cubit.screens[cubit.currentIndex],
           // EMAIL VERIFICATION
@@ -89,6 +94,10 @@ class LayoutScreen extends StatelessWidget {
                 label: 'Chat',
               ),
               BottomNavigationBarItem(
+                icon: Icon(IconBroken.Paper_Upload),
+                label: 'Post',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(IconBroken.Location),
                 label: 'Location',
               ),
@@ -98,7 +107,6 @@ class LayoutScreen extends StatelessWidget {
               ),
             ],
           ),
-          backgroundColor: Colors.white,
         );
       },
     );

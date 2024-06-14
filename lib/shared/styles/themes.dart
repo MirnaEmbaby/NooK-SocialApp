@@ -6,79 +6,80 @@ ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSwatch(primarySwatch: myIndigoMaterial),
     appBarTheme: AppBarTheme(
       titleSpacing: 20.0,
-      color: const Color(0xFFF5F5F5),
+      color: fadedWhite,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.dark,
-        statusBarColor: Colors.white.withOpacity(0),
+        statusBarColor: fadedWhite.withOpacity(0),
       ),
-      surfaceTintColor: Colors.white,
+      surfaceTintColor: fadedWhite,
       titleTextStyle: const TextStyle(
-        color: Colors.black,
+        color: fadedBlack,
         fontSize: 24.0,
         fontWeight: FontWeight.bold,
       ),
       iconTheme: const IconThemeData(
-        color: Colors.black,
+        color: fadedBlack,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
+      backgroundColor: fadedWhite,
       selectedItemColor: myIndigo,
       elevation: 10.0,
     ),
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: fadedWhite,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: myIndigo,
-      foregroundColor: Colors.white,
+      foregroundColor: fadedWhite,
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16.0,
-        color: Colors.black,
+        color: fadedBlack,
         height: 1.4,
       ),
     ),
     fontFamily: 'Lato');
 
 ThemeData darkTheme = ThemeData(
-  scaffoldBackgroundColor: Colors.black,
+  scaffoldBackgroundColor: fadedBlack,
   colorScheme: ColorScheme.fromSwatch(primarySwatch: myIndigoMaterial),
   appBarTheme: AppBarTheme(
     titleSpacing: 20.0,
-    color: Colors.black,
+    color: fadedBlack,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
-      statusBarColor: Colors.black.withOpacity(0),
+      statusBarColor: fadedBlack.withOpacity(0),
     ),
-    surfaceTintColor: Colors.black,
+    surfaceTintColor: fadedBlack,
     titleTextStyle: const TextStyle(
-      color: Colors.white,
+      color: fadedWhite,
       fontSize: 24.0,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: const IconThemeData(
-      color: Colors.white,
+      color: fadedWhite,
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-    backgroundColor: Colors.black,
+    backgroundColor: fadedBlack,
     selectedItemColor: myIndigo,
     elevation: 10.0,
   ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     backgroundColor: myIndigo,
-    foregroundColor: Colors.black,
+    foregroundColor: fadedBlack,
   ),
   unselectedWidgetColor: Colors.grey,
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 16.0,
-      color: Colors.white,
+      color: fadedBlack,
       height: 1.4,
     ),
   ),
+  cardColor: Colors.grey,
 );

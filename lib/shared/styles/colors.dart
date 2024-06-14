@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color myIndigo = Color(0xFF3A2CC7);
+const myIndigo = Color(0xFF3A2CC7);
 
 const int _myIndigoPrimaryValue = 0xFF3A2CC7;
 const MaterialColor myIndigoMaterial = MaterialColor(
@@ -19,4 +19,6 @@ const MaterialColor myIndigoMaterial = MaterialColor(
   },
 );
 
-const Color fadedBlack = Color(0xFF090909);
+const fadedBlack = Color(0xFF090909);
+
+const fadedWhite = Color(0xFFF5F5F5);

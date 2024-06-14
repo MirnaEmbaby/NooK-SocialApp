@@ -38,7 +38,11 @@ class AppCubit extends Cubit<AppStates> {
     const SettingsScreen(),
   ];
   void changeBottomNav(index) {
-    currentIndex = index;
-    emit(ChangeBottomNavState());
+    if (index == 2) {
+      emit(NewPostState());
+    } else {
+      currentIndex = index;
+      emit(ChangeBottomNavState());
+    }
   }
 }
