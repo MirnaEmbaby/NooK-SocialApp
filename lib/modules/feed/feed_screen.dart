@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:noook/modules/new_post/new_post_screen.dart';
+import 'package:noook/shared/components/components.dart';
+import 'package:noook/shared/styles/colors.dart';
 import 'package:noook/shared/styles/icon_broken.dart';
 
 class FeedScreen extends StatelessWidget {
@@ -6,20 +9,47 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => buildPost(context),
-            separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-            itemCount: 10,
+    return Stack(
+      alignment: AlignmentDirectional.bottomEnd,
+      children: [
+        SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => buildPost(context),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10.0),
+                itemCount: 10,
+              ),
+              const SizedBox(height: 8.0),
+            ],
           ),
-          const SizedBox(height: 8.0),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: FloatingActionButton(
+              elevation: 5.0,
+              onPressed: () {
+                navigateTo(
+                  context,
+                  const NewPostScreen(),
+                );
+              },
+              backgroundColor: myIndigo,
+              child: const Icon(
+                IconBroken.Paper_Upload,
+                color: Colors.white,
+                size: 30.0,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -38,7 +68,8 @@ Widget buildPost(context) => Card(
               children: [
                 const CircleAvatar(
                   backgroundImage: NetworkImage(
-                      'https://img.freepik.com/free-photo/portrait-happy-smiley-man_23-2149022624.jpg?t=st=1718395807~exp=1718399407~hmac=db2c6c0b97c418d50b203832cfd4810cadd0ee941bdc5d879368e1dba2444ad3&w=2000'),
+                    'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp',
+                  ),
                   radius: 25.0,
                 ),
                 const SizedBox(
@@ -159,7 +190,7 @@ Widget buildPost(context) => Card(
                 image: const DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    'https://img.freepik.com/free-photo/image-hesitant-unshaven-european-man-with-thick-beard-holds-chin-purses-lips-with-clueless-expressions_273609-17361.jpg?t=st=1718316822~exp=1718320422~hmac=5db7451397018bf206c5a55460f7fdb0bfacfb6770f9db65cee225cf640ca0db&w=2000',
+                    'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp',
                   ),
                 ),
               ),
@@ -233,7 +264,7 @@ Widget buildPost(context) => Card(
                 children: [
                   const CircleAvatar(
                     backgroundImage: NetworkImage(
-                        'https://img.freepik.com/free-photo/portrait-happy-smiley-man_23-2149022624.jpg?t=st=1718395807~exp=1718399407~hmac=db2c6c0b97c418d50b203832cfd4810cadd0ee941bdc5d879368e1dba2444ad3&w=2000'),
+                        'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp'),
                     radius: 16.0,
                   ),
                   const SizedBox(

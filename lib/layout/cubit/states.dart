@@ -15,3 +15,23 @@ class GetUserErrorState extends AppStates {
 class ChangeBottomNavState extends AppStates {}
 
 class NewPostState extends AppStates {}
+
+class ProfileImagePickedSuccessState extends AppStates {}
+
+class ProfileImagePickedErrorState extends AppStates {}
+
+class CoverImagePickedSuccessState extends AppStates {}
+
+class CoverImagePickedErrorState extends AppStates {}
+
+class UploadProfileImageSuccessState extends AppStates {}
+
+class UploadProfileImageErrorState extends AppStates {}
+
+class UploadCoverImageSuccessState extends AppStates {}
+
+class UploadCoverImageErrorState extends AppStates {}
+
+class UserUpdateLoadingState extends AppStates {}
+
+class UserUpdateErrorState extends AppStates {}

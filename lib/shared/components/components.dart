@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:noook/shared/styles/colors.dart';
+import 'package:noook/shared/styles/icon_broken.dart';
 
 void navigateTo(context, widget) => Navigator.push(
       context,
@@ -13,6 +14,28 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => widget),
       (route) => false,
+    );
+
+Widget defaultAppBar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      elevation: 10.0,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          IconBroken.Arrow___Left_2,
+        ), // Icon
+      ),
+      titleSpacing: 0.0,
+      title: Text(
+        title ?? '',
+      ),
+      actions: actions,
     );
 
 Widget? defaultFormField({
@@ -40,27 +63,39 @@ Widget? defaultFormField({
       onTap: onTap != null ? () => onTap() : null,
       validator: (s) => validate(s),
       decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(
-            prefix,
+        labelText: label,
+        labelStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 14.0,
+        ),
+        prefixIcon: Icon(
+          prefix,
+          color: Colors.grey,
+        ),
+        suffixIcon: hasSuffix
+            ? IconButton(
+                onPressed: () => suffixPressed!(),
+                icon: Icon(
+                  suffix,
+                  color: Colors.grey,
+                ),
+              )
+            : null,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
             color: myIndigo,
+            width: 1.0,
           ),
-          suffixIcon: hasSuffix
-              ? IconButton(
-                  onPressed: () => suffixPressed!(),
-                  icon: Icon(
-                    suffix,
-                    color: myIndigo,
-                  ),
-                )
-              : null,
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: myIndigo,
-              width: 2.0,
-            ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15.0),
+          borderSide: const BorderSide(
+            color: Colors.grey,
+            width: 1.0,
           ),
-          enabledBorder: const OutlineInputBorder()),
+        ),
+      ),
     );
 
 Widget defaultButton({
@@ -103,7 +138,8 @@ Widget defaultTextButton({
         text!.toUpperCase(),
         style: TextStyle(
           color: color,
-          fontSize: 12.0,
+          fontSize: 14.0,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/layout/cubit/states.dart';
-import 'package:noook/modules/new_post/new_post_screen.dart';
-import 'package:noook/shared/components/components.dart';
-import 'package:noook/shared/styles/colors.dart';
 import 'package:noook/shared/styles/icon_broken.dart';
 
 class LayoutScreen extends StatelessWidget {
@@ -19,9 +16,9 @@ class LayoutScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'News Feed',
-              style: TextStyle(
+            title: Text(
+              cubit.titles[cubit.currentIndex],
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -95,29 +92,10 @@ class LayoutScreen extends StatelessWidget {
                 label: 'Users',
               ),
               BottomNavigationBarItem(
-                icon: Icon(IconBroken.Setting),
-                label: 'Setting',
+                icon: Icon(IconBroken.Profile),
+                label: 'Profile',
               ),
             ],
-          ),
-          floatingActionButton: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                navigateTo(
-                  context,
-                  const NewPostScreen(),
-                );
-              },
-              elevation: 5.0,
-              hoverElevation: 15.0,
-              backgroundColor: myIndigo,
-              child: const Icon(
-                IconBroken.Paper_Upload,
-                color: Colors.white,
-                size: 30.0,
-              ),
-            ),
           ),
         );
       },

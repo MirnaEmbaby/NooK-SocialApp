@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/layout/cubit/states.dart';
+import 'package:noook/modules/edit_profile/edit_profile_screen.dart';
+import 'package:noook/shared/components/components.dart';
 import 'package:noook/shared/styles/colors.dart';
 import 'package:noook/shared/styles/icon_broken.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var userModel = AppCubit.get(context).model;
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        var userModel = AppCubit.get(context).userModel;
+        if (userModel == null) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -26,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Image(
-                        image: NetworkImage(userModel!.cover),
+                        image: NetworkImage(userModel.cover),
                         height: 140.0,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -174,7 +181,12 @@ class SettingsScreen extends StatelessWidget {
                     width: 10.0,
                   ),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateTo(
+                        context,
+                        EditProfileScreen(),
+                      );
+                    },
                     style: ButtonStyle(
                       shape: WidgetStateProperty.all(
                         RoundedRectangleBorder(
