@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noook/layout/cubit/cubit.dart';
 import 'package:noook/modules/new_post/new_post_screen.dart';
 import 'package:noook/shared/components/components.dart';
 import 'package:noook/shared/styles/colors.dart';
@@ -37,7 +38,7 @@ class FeedScreen extends StatelessWidget {
               onPressed: () {
                 navigateTo(
                   context,
-                  const NewPostScreen(),
+                  NewPostScreen(),
                 );
               },
               backgroundColor: myIndigo,
@@ -66,10 +67,9 @@ Widget buildPost(context) => Card(
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp',
-                  ),
+                CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(AppCubit.get(context).userModel!.image),
                   radius: 25.0,
                 ),
                 const SizedBox(
@@ -262,9 +262,9 @@ Widget buildPost(context) => Card(
               padding: const EdgeInsets.all(4.0),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp'),
+                  CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(AppCubit.get(context).userModel!.image),
                     radius: 16.0,
                   ),
                   const SizedBox(

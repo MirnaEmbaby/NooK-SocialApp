@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noook/layout/cubit/states.dart';
+import 'package:noook/models/post_model.dart';
 import 'package:noook/models/user_model.dart';
 import 'package:noook/modules/chats/chats_screen.dart';
 import 'package:noook/modules/feed/feed_screen.dart';
@@ -83,9 +84,11 @@ class AppCubit extends Cubit<AppStates> {
     }
   }
 
-  String profileImageUrl = '';
-
-  void uploadProfileImage() {
+  void uploadProfileImage({
+    required String name,
+    required String phone,
+    required String bio,
+  }) {
     FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
@@ -94,7 +97,12 @@ class AppCubit extends Cubit<AppStates> {
       value.ref.getDownloadURL().then((value) {
         emit(UploadProfileImageSuccessState());
         debugPrint(value);
-        profileImageUrl = value;
+        updateProfile(
+          name: name,
+          phone: phone,
+          bio: bio,
+          profileImage: value,
+        );
       }).catchError((error) {
         emit(UploadProfileImageErrorState());
         debugPrint(error.toString());
@@ -105,9 +113,11 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  String coverImageUrl = '';
-
-  void uploadCoverImage() {
+  void uploadCoverImage({
+    required String name,
+    required String phone,
+    required String bio,
+  }) {
     FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(coverImage!.path).pathSegments.last}')
@@ -116,7 +126,12 @@ class AppCubit extends Cubit<AppStates> {
       value.ref.getDownloadURL().then((value) {
         emit(UploadCoverImageSuccessState());
         debugPrint(value);
-        coverImageUrl = value;
+        updateProfile(
+          name: name,
+          phone: phone,
+          bio: bio,
+          coverImage: value,
+        );
       }).catchError((error) {
         emit(UploadCoverImageErrorState());
         debugPrint(error.toString());
@@ -125,26 +140,6 @@ class AppCubit extends Cubit<AppStates> {
       emit(UploadCoverImageErrorState());
       debugPrint(error.toString());
     });
-  }
-
-  void updateProfileImages({
-    required String name,
-    required String phone,
-    required String bio,
-  }) {
-    emit(UserUpdateLoadingState());
-    if (coverImage != null) {
-      uploadCoverImage();
-    } else if (profileImage != null) {
-      uploadProfileImage();
-    } else if (coverImage != null && profileImage != null) {
-    } else {
-      updateProfile(
-        name: name,
-        phone: phone,
-        bio: bio,
-      );
-    }
   }
 
   void updateProfile({
@@ -174,6 +169,77 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((error) {
       debugPrint(error.toString());
       emit(UserUpdateErrorState());
+    });
+  }
+
+  XFile? postImage;
+
+  Future getPostImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      postImage = XFile(pickedFile.path);
+      emit(PostImagePickedSuccessState());
+    } else {
+      debugPrint('No image selected.');
+      emit(PostImagePickedErrorState());
+    }
+  }
+
+  void removePostImage() {
+    postImage = null;
+    emit(RemovePostImageState());
+  }
+
+  void uploadPostImage({
+    required String dateTime,
+    required String text,
+  }) {
+    emit(CreatePostLoadingState());
+    FirebaseStorage.instance
+        .ref()
+        .child('posts/${Uri.file(postImage!.path).pathSegments.last}')
+        .putFile(File(postImage!.path))
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        debugPrint(value);
+        createPost(
+          dateTime: dateTime,
+          text: text,
+          postImage: value,
+        );
+      }).catchError((error) {
+        emit(CreatePostErrorState());
+        debugPrint(error.toString());
+      });
+    }).catchError((error) {
+      emit(CreatePostErrorState());
+      debugPrint(error.toString());
+    });
+  }
+
+  void createPost({
+    required String dateTime,
+    required String text,
+    String? postImage,
+  }) {
+    PostModel model = PostModel(
+      name: userModel!.name,
+      uId: userModel!.uId,
+      image: userModel!.image,
+      dateTime: dateTime,
+      text: text,
+      postImage: postImage ?? '',
+    );
+
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(model.toMap())
+        .then((value) {
+      emit(CreatePostSuccessState());
+    }).catchError((error) {
+      debugPrint(error.toString());
+      emit(CreatePostErrorState());
     });
   }
 }

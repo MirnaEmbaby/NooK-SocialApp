@@ -35,3 +35,15 @@ class UploadCoverImageErrorState extends AppStates {}
 class UserUpdateLoadingState extends AppStates {}
 
 class UserUpdateErrorState extends AppStates {}
+
+class CreatePostLoadingState extends AppStates {}
+
+class CreatePostSuccessState extends AppStates {}
+
+class CreatePostErrorState extends AppStates {}
+
+class PostImagePickedSuccessState extends AppStates {}
+
+class PostImagePickedErrorState extends AppStates {}
+
+class RemovePostImageState extends AppStates {}

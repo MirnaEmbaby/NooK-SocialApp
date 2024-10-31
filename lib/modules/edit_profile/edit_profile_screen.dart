@@ -82,7 +82,15 @@ class EditProfileScreen extends StatelessWidget {
                             ),
                             IconButton(
                               onPressed: () {
-                                AppCubit.get(context).getCoverImage();
+                                AppCubit.get(context)
+                                    .getCoverImage()
+                                    .then((value) {
+                                  AppCubit.get(context).uploadCoverImage(
+                                    name: nameController.text,
+                                    phone: phoneController.text,
+                                    bio: bioController.text,
+                                  );
+                                });
                               },
                               icon: const Icon(
                                 IconBroken.Edit,
@@ -102,33 +110,42 @@ class EditProfileScreen extends StatelessWidget {
                               radius: 60.0,
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
-                              child: InkWell(
-                                child: Stack(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: profileImage == null
-                                          ? NetworkImage(userModel.image)
-                                              as ImageProvider
-                                          : FileImage(File(profileImage.path)),
-                                      radius: 55.0,
-                                    ),
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          Colors.black.withOpacity(0.3),
-                                      radius: 55.0,
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  AppCubit.get(context).getProfileImage();
-                                },
+                              child: Stack(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: profileImage == null
+                                        ? NetworkImage(userModel.image)
+                                            as ImageProvider
+                                        : FileImage(File(profileImage.path)),
+                                    radius: 55.0,
+                                  ),
+                                  CircleAvatar(
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.3),
+                                    radius: 55.0,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          const Icon(
-                            IconBroken.Camera,
-                            color: Colors.white,
-                            size: 30.0,
+                          IconButton(
+                            padding: const EdgeInsets.all(40.0),
+                            onPressed: () {
+                              AppCubit.get(context)
+                                  .getProfileImage()
+                                  .then((value) {
+                                AppCubit.get(context).uploadProfileImage(
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  bio: bioController.text,
+                                );
+                              });
+                            },
+                            icon: const Icon(
+                              IconBroken.Camera,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
                           ),
                         ],
                       ),
