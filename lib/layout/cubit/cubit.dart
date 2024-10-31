@@ -242,4 +242,17 @@ class AppCubit extends Cubit<AppStates> {
       emit(CreatePostErrorState());
     });
   }
+
+  List<PostModel> posts = [];
+
+  void getPosts() {
+    FirebaseFirestore.instance.collection('posts').get().then((value) {
+      for (var element in value.docs) {
+        posts.add(PostModel.fromJson(element.data()));
+      }
+      emit(GetPostSuccessState());
+    }).catchError((error) {
+      emit(GetPostErrorState(error));
+    });
+  }
 }

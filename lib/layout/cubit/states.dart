@@ -47,3 +47,13 @@ class PostImagePickedSuccessState extends AppStates {}
 class PostImagePickedErrorState extends AppStates {}
 
 class RemovePostImageState extends AppStates {}
+
+class GetPostSuccessState extends AppStates {}
+
+class GetPostLoadingState extends AppStates {}
+
+class GetPostErrorState extends AppStates {
+  final String error;
+
+  GetPostErrorState(this.error);
+}

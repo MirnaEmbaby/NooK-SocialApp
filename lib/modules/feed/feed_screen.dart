@@ -1,5 +1,9 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
+import 'package:noook/layout/cubit/states.dart';
+import 'package:noook/models/post_model.dart';
 import 'package:noook/modules/new_post/new_post_screen.dart';
 import 'package:noook/shared/components/components.dart';
 import 'package:noook/shared/styles/colors.dart';
@@ -10,52 +14,68 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.bottomEnd,
-      children: [
-        SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => buildPost(context),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10.0),
-                itemCount: 10,
-              ),
-              const SizedBox(height: 8.0),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: FloatingActionButton(
-              elevation: 5.0,
-              onPressed: () {
-                navigateTo(
-                  context,
-                  NewPostScreen(),
-                );
-              },
-              backgroundColor: myIndigo,
-              child: const Icon(
-                IconBroken.Paper_Upload,
-                color: Colors.white,
-                size: 30.0,
-              ),
-            ),
-          ),
-        ),
-      ],
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return ConditionalBuilder(
+          condition: AppCubit.get(context).posts.isNotEmpty,
+          builder: (context) {
+            return Stack(
+              alignment: AlignmentDirectional.bottomEnd,
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => buildPost(
+                            AppCubit.get(context).posts[index], context),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10.0),
+                        itemCount: AppCubit.get(context).posts.length,
+                      ),
+                      const SizedBox(height: 8.0),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: FloatingActionButton(
+                      elevation: 5.0,
+                      onPressed: () {
+                        navigateTo(
+                          context,
+                          NewPostScreen(),
+                        );
+                      },
+                      backgroundColor: myIndigo,
+                      child: const Icon(
+                        IconBroken.Paper_Upload,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+          fallback: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        );
+      },
     );
   }
 }
 
-Widget buildPost(context) => Card(
+Widget buildPost(PostModel model, context) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(
@@ -64,12 +84,12 @@ Widget buildPost(context) => Card(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(AppCubit.get(context).userModel!.image),
+                  backgroundImage: NetworkImage(model.image),
                   radius: 25.0,
                 ),
                 const SizedBox(
@@ -82,7 +102,7 @@ Widget buildPost(context) => Card(
                       Row(
                         children: [
                           Text(
-                            'Some dude',
+                            model.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -99,7 +119,7 @@ Widget buildPost(context) => Card(
                         ],
                       ),
                       Text(
-                        'January 21, 2021 at 11:00 pm',
+                        model.dateTime,
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge!
@@ -130,12 +150,17 @@ Widget buildPost(context) => Card(
                 color: Colors.grey[300],
               ),
             ),
-            Text(
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-              style: Theme.of(context).textTheme.bodyLarge!,
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Text(
+                model.text,
+                style: Theme.of(context).textTheme.bodyLarge!,
+              ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 3.0),
+              padding: const EdgeInsets.symmetric(
+                vertical: 3.0,
+              ),
               width: double.infinity,
               child: Wrap(
                 spacing: 2.0,
@@ -181,19 +206,21 @@ Widget buildPost(context) => Card(
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
-              height: 150.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                image: const DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp',
+            if (model.postImage != '')
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                height: 150.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(model.postImage),
                   ),
                 ),
               ),
+            const SizedBox(
+              height: 8.0,
             ),
             Padding(
               padding: const EdgeInsets.all(2.0),
@@ -211,7 +238,7 @@ Widget buildPost(context) => Card(
                           ),
                           const SizedBox(width: 5.0),
                           Text(
-                            '120',
+                            '0',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
@@ -235,7 +262,7 @@ Widget buildPost(context) => Card(
                           ),
                           const SizedBox(width: 5.0),
                           Text(
-                            '80 comments',
+                            '0 comments',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
