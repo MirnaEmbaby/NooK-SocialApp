@@ -18,7 +18,8 @@ class FeedScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: AppCubit.get(context).posts.isNotEmpty,
+          condition: AppCubit.get(context).posts.isNotEmpty &&
+              AppCubit.get(context).userModel != null,
           builder: (context) {
             return Stack(
               alignment: AlignmentDirectional.bottomEnd,
@@ -31,7 +32,7 @@ class FeedScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => buildPost(
-                            AppCubit.get(context).posts[index], context),
+                            AppCubit.get(context).posts[index], context, index),
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 10.0),
                         itemCount: AppCubit.get(context).posts.length,
@@ -75,7 +76,7 @@ class FeedScreen extends StatelessWidget {
   }
 }
 
-Widget buildPost(PostModel model, context) => Card(
+Widget buildPost(PostModel model, context, index) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(
@@ -101,15 +102,18 @@ Widget buildPost(PostModel model, context) => Card(
                     children: [
                       Row(
                         children: [
-                          Text(
-                            model.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(height: 1.4),
+                          Flexible(
+                            child: Text(
+                              model.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(height: 1.4),
+                            ),
                           ),
                           const SizedBox(
-                            width: 5.0,
+                            width: 10.0,
                           ),
                           const Icon(
                             Icons.check_circle,
@@ -238,7 +242,7 @@ Widget buildPost(PostModel model, context) => Card(
                           ),
                           const SizedBox(width: 5.0),
                           Text(
-                            '0',
+                            '${AppCubit.get(context).likes[index]}',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
@@ -316,7 +320,10 @@ Widget buildPost(PostModel model, context) => Card(
                   Row(
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          AppCubit.get(context)
+                              .likePost(AppCubit.get(context).postsId[index]);
+                        },
                         child: Row(
                           children: [
                             const Icon(
