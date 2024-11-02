@@ -246,10 +246,26 @@ class AppCubit extends Cubit<AppStates> {
   List<PostModel> posts = [];
   List<String> postsId = [];
   List<int> likes = [];
+  List<int> comments = [];
+  List<String> commentText = [];
 
   void getPosts() {
     FirebaseFirestore.instance.collection('posts').get().then((value) {
       for (var element in value.docs) {
+        element.reference.collection('comments').get().then((value) {
+          comments.add(value.docs.length);
+        }).catchError((error) {});
+
+        element.reference
+            .collection('comments')
+            .doc(userModel!.uId)
+            .get()
+            .then((value) {
+          var comment = value.get('comment');
+          commentText.add(comment);
+          debugPrint(comment);
+        });
+
         element.reference.collection('likes').get().then((value) {
           likes.add(value.docs.length);
           postsId.add(element.id);
@@ -276,6 +292,19 @@ class AppCubit extends Cubit<AppStates> {
       emit(LikePostSuccessState());
     }).catchError((error) {
       emit(LikePostErrorState());
+    });
+  }
+
+  void comment(String postId, String comment) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('comments')
+        .doc(userModel!.uId)
+        .set({'comment': comment}).then((value) {
+      emit(CommentSuccessState());
+    }).catchError((error) {
+      emit(CommentErrorState());
     });
   }
 }
