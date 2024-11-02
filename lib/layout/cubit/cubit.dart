@@ -261,9 +261,14 @@ class AppCubit extends Cubit<AppStates> {
             .doc(userModel!.uId)
             .get()
             .then((value) {
-          var comment = value.get('comment');
-          commentText.add(comment);
-          debugPrint(comment);
+          if (value.exists) {
+            var comment = value.get('comment');
+            commentText.add(comment);
+            debugPrint(comment);
+          } else {
+            commentText.add("");
+            debugPrint("no comment");
+          }
         });
 
         element.reference.collection('likes').get().then((value) {
