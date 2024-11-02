@@ -306,7 +306,20 @@ Widget buildPost(PostModel model, context, index) {
                     width: 10.0,
                   ),
                   Expanded(
-                    child: Text(AppCubit.get(context).commentText[index]),
+                    child: Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        AppCubit.get(context).commentText[index],
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                    ),
                   ),
                 ],
               ),
