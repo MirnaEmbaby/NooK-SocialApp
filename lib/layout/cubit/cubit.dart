@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noook/layout/cubit/states.dart';
+import 'package:noook/models/message_model.dart';
 import 'package:noook/models/post_model.dart';
 import 'package:noook/models/user_model.dart';
 import 'package:noook/modules/chats/chats_screen.dart';
@@ -52,6 +53,9 @@ class AppCubit extends Cubit<AppStates> {
 
   void changeBottomNav(index) {
     currentIndex = index;
+    if (index == 1) {
+      getAllUsers();
+    }
     emit(ChangeBottomNavState());
   }
 
@@ -310,6 +314,62 @@ class AppCubit extends Cubit<AppStates> {
       emit(CommentSuccessState());
     }).catchError((error) {
       emit(CommentErrorState());
+    });
+  }
+
+  List<UserModel> users = [];
+
+  void getAllUsers() {
+    if (users.isEmpty) {
+      FirebaseFirestore.instance.collection('users').get().then((value) {
+        for (var element in value.docs) {
+          if (element.data()['uId'] != userModel!.uId) {
+            users.add(UserModel.fromJson(element.data()));
+          }
+        }
+        emit(GetAllUsersSuccessState());
+      }).catchError((error) {
+        emit(GetAllUsersErrorState(error));
+      });
+    }
+  }
+
+  void sendMessage(
+    String receiverId,
+    String dateTime,
+    String msg,
+  ) {
+    MessageModel model = MessageModel(
+      senderId: userModel!.uId,
+      receiverId: receiverId,
+      dateTime: dateTime,
+      msg: msg,
+    );
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState(error.toString()));
+    });
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState(error.toString()));
     });
   }
 }

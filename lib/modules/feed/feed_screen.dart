@@ -296,6 +296,7 @@ Widget buildPost(PostModel model, context, index) {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   CircleAvatar(
                     backgroundImage:
@@ -307,11 +308,14 @@ Widget buildPost(PostModel model, context, index) {
                   ),
                   Expanded(
                     child: Container(
+                      margin: const EdgeInsets.only(bottom: 2.0),
                       height: 50.0,
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10.0),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(10.0),
+                          topLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0),
                         ),
                       ),
                       padding: const EdgeInsets.all(10.0),

@@ -73,3 +73,27 @@ class GetCommentErrorState extends AppStates {
 
   GetCommentErrorState(this.error);
 }
+
+class GetAllUsersSuccessState extends AppStates {}
+
+class GetAllUsersErrorState extends AppStates {
+  final String error;
+
+  GetAllUsersErrorState(this.error);
+}
+
+class SendMessageSuccessState extends AppStates {}
+
+class SendMessageErrorState extends AppStates {
+  final String error;
+
+  SendMessageErrorState(this.error);
+}
+
+class GetMessagesSuccessState extends AppStates {}
+
+class GetMessagesErrorState extends AppStates {
+  final String error;
+
+  GetMessagesErrorState(this.error);
+}
