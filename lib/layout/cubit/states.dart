@@ -91,9 +91,3 @@ class SendMessageErrorState extends AppStates {
 }
 
 class GetMessagesSuccessState extends AppStates {}
-
-class GetMessagesErrorState extends AppStates {
-  final String error;
-
-  GetMessagesErrorState(this.error);
-}

@@ -21,10 +21,8 @@ class ChatsScreen extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) =>
                 buildChatItem(context, AppCubit.get(context).users[index]),
-            separatorBuilder: (context, index) => Container(
-              width: double.infinity,
-              height: 1.0,
-              color: Colors.grey[300],
+            separatorBuilder: (context, index) => const SizedBox(
+              height: 10.0,
             ),
             itemCount: AppCubit.get(context).users.length,
           ),
