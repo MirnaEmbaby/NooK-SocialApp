@@ -1,5 +1,6 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noook/layout/cubit/cubit.dart';
@@ -13,6 +14,11 @@ import 'package:noook/shared/styles/themes.dart';
 
 import 'firebase_options.dart';
 
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  debugPrint('Message data: ${message.data}');
+  showToast('background notification', ToastStates.success);
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -21,6 +27,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  debugPrint(await messaging.getToken());
+
+  await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
   await FirebaseAppCheck.instance.activate(
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.debug,
@@ -36,6 +56,18 @@ Future<void> main() async {
   } else {
     widget = LoginScreen();
   }
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint('Message data: ${message.data}');
+    showToast('on message notification', ToastStates.success);
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    debugPrint('Message data: ${message.data}');
+    showToast('on message opened app notification', ToastStates.success);
+  });
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
   runApp(MyApp(startWidget: widget));
 }
 

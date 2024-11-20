@@ -254,10 +254,19 @@ class AppCubit extends Cubit<AppStates> {
   List<String> commentText = [];
 
   void getPosts() {
-    FirebaseFirestore.instance.collection('posts').get().then((value) {
+    emit(GetPostLoadingState());
+    FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('dateTime')
+        .get()
+        .then((value) {
+      debugPrint('Fetched ${value.docs.length} posts');
+      int count = value.docs.length;
+
       for (var element in value.docs) {
         element.reference.collection('comments').get().then((value) {
           comments.add(value.docs.length);
+          debugPrint('Fetched comments for post ${element.id}');
         }).catchError((error) {});
 
         element.reference
@@ -285,7 +294,9 @@ class AppCubit extends Cubit<AppStates> {
           );
         }).catchError((error) {});
       }
-      emit(GetPostSuccessState());
+      if (posts.length == count) {
+        emit(GetPostSuccessState());
+      }
     }).catchError((error) {
       emit(GetPostErrorState(error));
     });
