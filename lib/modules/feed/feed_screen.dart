@@ -18,9 +18,11 @@ class FeedScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: AppCubit.get(context).posts.isNotEmpty &&
-              AppCubit.get(context).userModel != null,
+          condition: AppCubit.get(context).userModel != null,
           builder: (context) {
+            if (AppCubit.get(context).posts.isEmpty) {
+              AppCubit.get(context).getPosts();
+            }
             return Stack(
               alignment: AlignmentDirectional.bottomEnd,
               children: [
